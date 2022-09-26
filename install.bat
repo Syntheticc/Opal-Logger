@@ -1,0 +1,13 @@
+pip install ctypes
+pip install shutil
+pip install browser_cookie3
+pip install psutil
+pip install win32crypt
+pip install base64
+pip install b64
+pip install requests
+pip install discord
+pip install colorama
+pip install re
+pip install crypto
+pip install sqlite3
