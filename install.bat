@@ -18,3 +18,5 @@ pip install pystyle
 pip install os
 pip install shutil
 pip install pyinstaller
+pip install datetime
+pip install dhooks
