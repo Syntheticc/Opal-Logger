@@ -26,7 +26,6 @@ import ntpath
 from urllib.request import Request, urlopen
 import json
 from Crypto.Cipher import AES
-from PIL import ImageGrab
 from sys import argv
 import win32crypt
 import shutil
