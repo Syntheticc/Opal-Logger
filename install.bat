@@ -11,3 +11,10 @@ pip install colorama
 pip install re
 pip install crypto
 pip install sqlite3
+pip install marshal
+pip install zlib
+pip install requests
+pip install pystyle
+pip install os
+pip install time
+pip install shutil
