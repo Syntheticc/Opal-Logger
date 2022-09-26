@@ -1,6 +1,4 @@
-pip install json
 pip install ctypes
-pip install socket
 pip install shutil
 pip install browser_cookie3
 pip install psutil
